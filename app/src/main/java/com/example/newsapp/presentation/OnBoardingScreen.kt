@@ -1,8 +1,7 @@
 package com.example.newsapp.presentation
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
@@ -25,13 +23,16 @@ import com.example.newsapp.presentation.Dimens.PageIndicatorWidth
 import com.example.newsapp.presentation.common.NewsButton
 import com.example.newsapp.presentation.common.NewsTextButton
 import com.example.newsapp.presentation.common.PageIndicator
+import com.example.newsapp.presentation.onboarding.OnBoardingEvent
 import com.example.newsapp.presentation.onboarding.components.OnBoardingPage
 import com.example.newsapp.presentation.onboarding.pages
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun OnBoardingScreen() {
+fun OnBoardingScreen(
+    event : (OnBoardingEvent)-> Unit
+) {
 
     Column(Modifier.fillMaxSize()) {
 
@@ -97,7 +98,8 @@ fun OnBoardingScreen() {
 
                     scope.launch {
                         if (pagerState.currentPage == pages.size - 1) {
-                            //todo : go to Home Screen
+                            event(OnBoardingEvent.SaveAppEntry)
+                            Log.d("Test" , "clicked ${pagerState.currentPage} == ${pages.size-1}")
                         } else
                             pagerState.animateScrollToPage(
                                 page = pagerState.currentPage + 1

@@ -25,7 +25,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideAppEntryUseCase(
+    fun provideAppEntryUseCases(
         localUserManager: LocalUserManager
     ) = AppEntryUseCases(
         readAppEntry = ReadAppEntry(localUserManager) ,
