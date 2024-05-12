@@ -12,7 +12,6 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.example.newsapp.domain.model.Article
 import com.example.newsapp.presentation.Dimens.MediumPadding1
-import com.example.newsapp.presentation.Dimens.MediumPadding2
 
 @Composable
 fun ArticlesList(
@@ -25,9 +24,10 @@ fun ArticlesList(
 
     if (hundlePagingResult) {
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
+            modifier = modifier.fillMaxSize(),
+
             verticalArrangement = Arrangement.spacedBy(MediumPadding1),
-            contentPadding = PaddingValues(MediumPadding2)
+            contentPadding = PaddingValues(MediumPadding1)
         ) {
             items(articles.itemCount) {
                 articles[it]?.let { article ->
