@@ -13,9 +13,12 @@ import com.example.newsapp.domain.repository.NewsRepository
 import com.example.newsapp.domain.usecases.app_entry.AppEntryUseCases
 import com.example.newsapp.domain.usecases.app_entry.ReadAppEntry
 import com.example.newsapp.domain.usecases.app_entry.SaveAppEntry
+import com.example.newsapp.domain.usecases.news.DeleteArticle
 import com.example.newsapp.domain.usecases.news.GetNews
 import com.example.newsapp.domain.usecases.news.NewsUseCases
 import com.example.newsapp.domain.usecases.news.SearchNews
+import com.example.newsapp.domain.usecases.news.SelectArticles
+import com.example.newsapp.domain.usecases.news.UpsertArticle
 import com.example.newsapp.util.Constants.BASE_URL
 import com.example.newsapp.util.Constants.NEWS_DB_NAME
 import dagger.Module
@@ -63,10 +66,16 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideNewsUseCases(newsRepository: NewsRepository): NewsUseCases {
+    fun provideNewsUseCases(
+        newsRepository: NewsRepository,
+        newsDao: NewsDao
+    ): NewsUseCases {
         return NewsUseCases(
             getNews = GetNews(newsRepository),
-            searchNews = SearchNews(newsRepository)
+            searchNews = SearchNews(newsRepository),
+            upsertArticle = UpsertArticle(newsDao),
+            deleteArticle = DeleteArticle(newsDao),
+            selectArticles = SelectArticles(newsDao)
         )
 
     }
@@ -74,17 +83,16 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideNewsDatabase(application: Application) : NewsDatabase{
+    fun provideNewsDatabase(application: Application): NewsDatabase {
         return Room.databaseBuilder(
             context = application,
-            klass = NewsDatabase::class.java  ,
+            klass = NewsDatabase::class.java,
             name = NEWS_DB_NAME
         ).addTypeConverter(NewsTypeConverter())
             .fallbackToDestructiveMigration()
             .build()
 
     }
-
 
 
     @Provides
