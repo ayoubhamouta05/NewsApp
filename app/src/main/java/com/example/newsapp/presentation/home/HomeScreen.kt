@@ -28,13 +28,13 @@ import com.example.newsapp.presentation.Dimens.MediumPadding1
 import com.example.newsapp.presentation.Dimens.MediumPadding2
 import com.example.newsapp.presentation.common.ArticlesList
 import com.example.newsapp.presentation.common.SearchBar
-import com.example.newsapp.presentation.nvgraph.Route
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     articles: LazyPagingItems<Article>,
-    navigate: (String) -> Unit
+    navigateToSearch: () -> Unit,
+    navigateToDetails: (Article) -> Unit
 ) {
     val titles by remember {
         derivedStateOf {
@@ -71,7 +71,9 @@ fun HomeScreen(
             text = "",
             readOnly = true,
             onValueChanged = {},
-            onClick = {},
+            onClick = {
+                navigateToSearch()
+            },
             onSearch = {}
         )
 
@@ -88,10 +90,13 @@ fun HomeScreen(
         )
 
         Spacer(modifier = Modifier.height(MediumPadding1))
-        
-        ArticlesList( modifier = Modifier.padding(horizontal = MediumPadding1),articles = articles) {
-            navigate(Route.DetailsScreen.route)
-            
+
+        ArticlesList(
+            modifier = Modifier,
+            articles = articles
+        ) {
+            navigateToDetails(it)
+
         }
 
     }

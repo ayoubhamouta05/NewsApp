@@ -28,28 +28,10 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel by viewModels<MainViewModel>()
 
-    @Inject
-    lateinit var dao: NewsDao
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-        lifecycleScope.launch {
-            dao.upsert(
-                Article(
-                    "test",
-                    "test",
-                    "test",
-                    "test",
-                    Source("test", "test"),
-                    "test",
-                    "test",
-                    "test"
-
-
-                )
-            )
-        }
 
         installSplashScreen().apply {
             setKeepOnScreenCondition {

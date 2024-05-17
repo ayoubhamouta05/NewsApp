@@ -23,9 +23,8 @@ fun ArticlesList(
 
     LazyColumn(
         modifier = modifier.fillMaxSize(),
-
         verticalArrangement = Arrangement.spacedBy(MediumPadding1),
-        contentPadding = PaddingValues(MediumPadding1)
+//        contentPadding = PaddingValues(MediumPadding1)
     ) {
         items(articles.size) {
             val article = articles[it]
