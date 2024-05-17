@@ -47,13 +47,15 @@ fun EmptyScreen(error: LoadState.Error? = null) {
         icon = R.drawable.ic_search_document
     }
 
+
+
     var startAnimation by remember {
         mutableStateOf(false)
     }
 
     val alphaAnimation by animateFloatAsState(
         targetValue = if (startAnimation) 0.3f else 0f,
-        animationSpec = tween(durationMillis = 1000)
+        animationSpec = tween(durationMillis = 1500), label = ""
     )
 
     LaunchedEffect(key1 = true) {

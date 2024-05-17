@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.example.newsapp.domain.model.Article
@@ -20,21 +21,23 @@ fun ArticlesList(
     onCLick: (Article) -> Unit
 ) {
 
+    if (articles.isEmpty()) {
+        EmptyScreen()
+    } else {
+        LazyColumn(
+            modifier = modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(MediumPadding1),
+        ) {
+            items(articles.size) {
+                val article = articles[it]
+                ArticleCard(article = article) {
+                    onCLick(article)
+                }
 
-    LazyColumn(
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(MediumPadding1),
-//        contentPadding = PaddingValues(MediumPadding1)
-    ) {
-        items(articles.size) {
-            val article = articles[it]
-            ArticleCard(article = article) {
-                onCLick(article)
+
             }
 
-
         }
-
     }
 
 
@@ -77,6 +80,7 @@ fun hundlePagingResult(
 ): Boolean {
     val loadState = articles.loadState
 
+
     val error = when {
         loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
         loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
@@ -92,6 +96,11 @@ fun hundlePagingResult(
         }
 
         error != null -> {
+            EmptyScreen(error = error)
+            false
+        }
+
+        articles.itemCount == 0 -> {
             EmptyScreen()
             false
         }
