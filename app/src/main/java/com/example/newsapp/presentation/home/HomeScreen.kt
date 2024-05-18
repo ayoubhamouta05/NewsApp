@@ -34,7 +34,8 @@ import com.example.newsapp.presentation.common.SearchBar
 fun HomeScreen(
     articles: LazyPagingItems<Article>,
     navigateToSearch: () -> Unit,
-    navigateToDetails: (Article) -> Unit
+    navigateToDetails: (Article) -> Unit,
+    onRefresh: () -> Unit
 ) {
     val titles by remember {
         derivedStateOf {
@@ -91,13 +92,14 @@ fun HomeScreen(
 
         Spacer(modifier = Modifier.height(MediumPadding1))
 
-        ArticlesList(
-            modifier = Modifier,
-            articles = articles
-        ) {
-            navigateToDetails(it)
 
-        }
+
+        ArticlesList(
+            modifier = Modifier.padding(horizontal = MediumPadding1),
+            articles = articles,
+            onCLick = { navigateToDetails(it) },
+            onRefresh = { onRefresh() }
+        )
 
     }
 

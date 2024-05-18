@@ -121,6 +121,9 @@ fun NewsNavigator() {
                     },
                     navigateToDetails = { article ->
                         navigateToDetails(navController = navController, article = article)
+                    },
+                    onRefresh = {
+                        articles.refresh()
                     }
                 )
             }
