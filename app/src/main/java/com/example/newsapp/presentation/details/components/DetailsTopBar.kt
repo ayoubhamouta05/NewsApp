@@ -16,7 +16,6 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.newsapp.R
-import com.example.newsapp.presentation.common.ArticleCardShimmerEffect
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -25,8 +24,8 @@ fun DetailsTopBar(
     onBrowsingClick: () -> Unit,
     onShareClick: () -> Unit,
     onBackClick: () -> Unit,
-    onBookmarkClick: () -> Unit
-
+    onBookmarkClick: () -> Unit,
+    isSaved : Boolean
 ) {
 
     TopAppBar(
@@ -47,7 +46,8 @@ fun DetailsTopBar(
         actions ={
             IconButton(onClick = onBookmarkClick) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_bookmark),
+                    painter = if (isSaved) painterResource(id = R.drawable.ic_bookmark_saved) else
+                        painterResource(id = R.drawable.ic_bookmark),
                     contentDescription = null
                 )
             }
@@ -76,7 +76,7 @@ fun DetailsTopBarPreview(){
     DetailsTopBar(
         onBrowsingClick = { /*TODO*/ },
         onShareClick = { /*TODO*/ },
-        onBackClick = { /*TODO*/ }) {
-
-    }
+        onBackClick = { /*TODO*/ },
+        onBookmarkClick = { },
+        true)
 }

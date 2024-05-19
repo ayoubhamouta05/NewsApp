@@ -34,7 +34,8 @@ import com.example.newsapp.presentation.details.components.DetailsTopBar
 fun DetailsScreen(
     article: Article,
     event: (DetailsEvent) -> Unit,
-    navigateUp: () -> Unit
+    navigateUp: () -> Unit,
+    isSaved : Boolean
 ) {
 
     val context = LocalContext.current
@@ -66,6 +67,7 @@ fun DetailsScreen(
                 event(DetailsEvent.UpsertDeleteArticle(article))
             },
             onBackClick = navigateUp,
+            isSaved = isSaved
         )
 
         LazyColumn(
@@ -134,7 +136,8 @@ fun DetailsScreenPreview() {
         ""
     ),
         event = {},
-        navigateUp = {}
+        navigateUp = {},
+        false
     )
 
 }

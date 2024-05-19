@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.newsapp.domain.model.Article
 import com.example.newsapp.domain.usecases.news.NewsUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,16 +21,27 @@ class DetailsViewModel @Inject constructor(
 
     var sideEffect by mutableStateOf<String?>(null)
         private set
+    var isSaved by mutableStateOf(false)
+        private set
 
     private suspend fun upsertArticle(article: Article) {
         newsUseCases.upsertArticle(article)
         sideEffect = "Article Saved"
-
+        isSaved = true
     }
 
     private suspend fun deleteArticle(article: Article) {
         newsUseCases.deleteArticle(article)
         sideEffect = "Article Deleted"
+        isSaved = false
+    }
+    fun checkExistence(article: Article) {
+        newsUseCases.selectArticles().onEach {
+            if (it.contains(article)){
+                isSaved = true
+                return@onEach
+            }
+        }.launchIn(viewModelScope)
     }
 
     fun onEvent(event: DetailsEvent){

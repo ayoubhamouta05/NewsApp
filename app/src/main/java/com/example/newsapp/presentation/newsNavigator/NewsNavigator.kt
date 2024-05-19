@@ -56,7 +56,7 @@ fun NewsNavigator() {
 
 
 
-    selectedItem = remember (key1 = backStackState){
+    selectedItem = remember(key1 = backStackState) {
         when (backStackState?.destination?.route) {
             Route.HomeScreen.route -> 0
             Route.SearchScreen.route -> 1
@@ -141,17 +141,22 @@ fun NewsNavigator() {
 
                 val viewModel: DetailsViewModel = hiltViewModel()
 
-                if (viewModel.sideEffect != null){
-                    Toast.makeText(LocalContext.current , viewModel.sideEffect , Toast.LENGTH_SHORT).show()
+                if (viewModel.sideEffect != null) {
+                    Toast.makeText(LocalContext.current, viewModel.sideEffect, Toast.LENGTH_SHORT)
+                        .show()
                     viewModel.onEvent(DetailsEvent.RemoveSideEffect)
 
                 }
 
                 navController.previousBackStackEntry?.savedStateHandle?.get<Article?>("article")
                     ?.let { article ->
-                        DetailsScreen(article = article, event = viewModel::onEvent) {
-                            navController.navigateUp()
-                        }
+                        viewModel.checkExistence(article)
+                        DetailsScreen(
+                            article = article,
+                            event = viewModel::onEvent,
+                            navigateUp = { navController.navigateUp()},
+                            isSaved = viewModel.isSaved
+                            )
 
                     }
             }
