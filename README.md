@@ -1,4 +1,4 @@
-# Trending Movies App
+# Khabar
 ---
 ## Screenshots
 
